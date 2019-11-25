@@ -1,0 +1,7 @@
+default:
+  suites:
+    info:
+      paths:
+        - "features"
+      contexts:
+        - Grocelivery\Geolocalizer\Tests\Contexts\FeatureContext
