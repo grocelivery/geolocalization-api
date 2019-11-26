@@ -3,8 +3,8 @@
 namespace Grocelivery\Geolocalizer\Http\Controllers\Points;
 
 use Grocelivery\Geolocalizer\Http\Controllers\Controller;
-use Grocelivery\Geolocalizer\Http\Requests\SearchPointsByName;
-use Grocelivery\Geolocalizer\Http\Requests\SearchPointsInRange;
+use Grocelivery\Geolocalizer\Http\Requests\Points\SearchPointsByName;
+use Grocelivery\Geolocalizer\Http\Requests\Points\SearchPointsInRange;
 use Grocelivery\Geolocalizer\Http\Resources\PointResource;
 use Grocelivery\Geolocalizer\Models\Point;
 use Grocelivery\Utils\Interfaces\JsonResponseInterface as JsonResponse;

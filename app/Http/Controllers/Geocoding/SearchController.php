@@ -3,8 +3,10 @@
 namespace Grocelivery\Geolocalizer\Http\Controllers\Geocoding;
 
 use Grocelivery\Geolocalizer\Http\Controllers\Controller;
-use Grocelivery\Geolocalizer\Http\Requests\ReverseSearch;
-use Grocelivery\Geolocalizer\Http\Requests\Search;
+use Grocelivery\Geolocalizer\Http\Requests\Geocoding\ReverseSearch;
+use Grocelivery\Geolocalizer\Http\Requests\Geocoding\Search;
+use Grocelivery\Geolocalizer\Http\Requests\Geocoding\SearchNearby;
+use Grocelivery\Geolocalizer\Http\Resources\NearbySearchResults;
 use Grocelivery\Geolocalizer\Http\Resources\ReverseSearchResults;
 use Grocelivery\Geolocalizer\Http\Resources\SearchResults;
 use Grocelivery\Geolocalizer\Services\LocationIqClient;
@@ -49,5 +51,21 @@ class SearchController extends Controller
     {
         $results = $this->client->reverse($request->input('latitude'), $request->input('longitude'));
         return $this->response->withResource('results', new ReverseSearchResults($results));
+    }
+
+    /**
+     * @param SearchNearby $request
+     * @return JsonResponseInterface
+     */
+    public function nearby(SearchNearby $request): JsonResponseInterface
+    {
+        $results = $this->client->nearby(
+            $request->input('tag'),
+            $request->input('latitude'),
+            $request->input('longitude'),
+            $request->input('kilometers'),
+        );
+
+        return $this->response->withResource('results', new NearbySearchResults($results));
     }
 }

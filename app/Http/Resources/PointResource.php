@@ -2,7 +2,6 @@
 
 namespace Grocelivery\Geolocalizer\Http\Resources;
 
-use Grocelivery\Geolocalizer\Models\Point;
 use Grocelivery\Utils\Resources\JsonResource;
 
 /**

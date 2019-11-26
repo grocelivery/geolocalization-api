@@ -1,12 +1,12 @@
 <?php
 
-namespace Grocelivery\Geolocalizer\Http\Requests;
+namespace Grocelivery\Geolocalizer\Http\Requests\Points;
 
 use Grocelivery\Utils\Requests\FormRequest;
 
 /**
  * Class SearchPointsInRange
- * @package Grocelivery\Geolocalizer\Http\Requests
+ * @package Grocelivery\Geolocalizer\Http\Requests\Points
  */
 class SearchPointsInRange extends FormRequest
 {

@@ -2,8 +2,10 @@
 
 namespace Grocelivery\Geolocalizer\Services;
 
+use Grocelivery\Geolocalizer\Exceptions\LocationIqException;
 use Grocelivery\Utils\Clients\RestClient;
 use Grocelivery\Utils\Exceptions\RestClientException;
+use Grocelivery\Utils\Interfaces\JsonResponseInterface;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
@@ -15,6 +17,22 @@ class LocationIqClient extends RestClient
 {
     /** @var array */
     protected $query = [];
+
+    /**
+     * @param $method
+     * @param string $path
+     * @param array $options
+     * @return JsonResponseInterface
+     * @throws LocationIqException
+     */
+    public function request($method, $path = "", array $options = []): JsonResponseInterface
+    {
+        try {
+            return parent::request($method, $path, $options);
+        } catch (RestClientException $exception) {
+            throw new LocationIqException("Geocoding client responded with error code: " . $exception->getCode());
+        }
+    }
 
     /**
      * @param string $query
@@ -43,7 +61,6 @@ class LocationIqClient extends RestClient
     {
         $this->setQueryParameter('lat', $latitude);
         $this->setQueryParameter('lon', $longitude);
-        $this->setQueryParameter('format', 'json');
 
         $results = [];
 
@@ -60,10 +77,29 @@ class LocationIqClient extends RestClient
     }
 
     /**
-     * @param string $key
-     * @param string $value
+     * @param string $tag
+     * @param float $latitude
+     * @param float $longitude
+     * @param int $kilometers
+     * @return Collection
      */
-    public function setQueryParameter(string $key, string $value): void
+    public function nearby(string $tag, float $latitude, float $longitude, int $kilometers): Collection
+    {
+        $this->setQueryParameter('tag', $tag);
+        $this->setQueryParameter('lat', $latitude);
+        $this->setQueryParameter('lon', $longitude);
+        $this->setQueryParameter('radius', $kilometers * 1000);
+
+        $response = $this->get('/nearby.php' . $this->buildQueryString());
+
+        return collect($response->getBody());
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    public function setQueryParameter(string $key, $value): void
     {
         $this->query[$key] = $value;
     }
@@ -89,8 +125,10 @@ class LocationIqClient extends RestClient
      */
     protected function buildQueryString(): string
     {
-        $this->query['key'] = $this->getKey();
-        $this->query['normalizecity'] = 1;
+        $this->setQueryParameter('key', $this->getKey());
+        $this->setQueryParameter('normalizecity', 1);
+        $this->setQueryParameter('format', 'json');
+
         return '?' . http_build_query($this->query);
     }
 }

@@ -3,8 +3,8 @@
 namespace Grocelivery\Geolocalizer\Http\Controllers\Points;
 
 use Grocelivery\Geolocalizer\Http\Controllers\Controller;
-use Grocelivery\Geolocalizer\Http\Requests\CreatePoint;
-use Grocelivery\Geolocalizer\Http\Requests\ReplacePoints;
+use Grocelivery\Geolocalizer\Http\Requests\Points\CreatePoint;
+use Grocelivery\Geolocalizer\Http\Requests\Points\ReplacePoints;
 use Grocelivery\Geolocalizer\Http\Resources\PointResource;
 use Grocelivery\Geolocalizer\Models\Point;
 use Grocelivery\Utils\Interfaces\JsonResponseInterface as JsonResponse;

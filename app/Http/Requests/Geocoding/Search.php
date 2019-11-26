@@ -1,12 +1,12 @@
 <?php
 
-namespace Grocelivery\Geolocalizer\Http\Requests;
+namespace Grocelivery\Geolocalizer\Http\Requests\Geocoding;
 
 use Grocelivery\Utils\Requests\FormRequest;
 
 /**
  * Class Search
- * @package Grocelivery\Geolocalizer\Http\Requests
+ * @package Grocelivery\Geolocalizer\Http\Requests\Geocoding
  */
 class Search extends FormRequest
 {
