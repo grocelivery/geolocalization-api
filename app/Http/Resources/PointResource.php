@@ -16,6 +16,7 @@ class PointResource extends JsonResource
     public function toArray(): array
     {
         return [
+            'id' => $this->resource['_id'],
             'name' => $this->resource['name'],
             'location' => $this->resource['location'],
             'payload' => $this->resource['payload'] ?? [],
