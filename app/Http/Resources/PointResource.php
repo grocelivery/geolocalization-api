@@ -18,7 +18,7 @@ class PointResource extends JsonResource
         return [
             'name' => $this->resource['name'],
             'location' => $this->resource['location'],
-            'payload' => $this->resource['payload'],
+            'payload' => $this->resource['payload'] ?? [],
             'type' => $this->resource['type'],
         ];
     }
