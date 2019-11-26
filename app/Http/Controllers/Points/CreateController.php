@@ -61,6 +61,6 @@ class CreateController extends Controller
 
         return $this->response
             ->setMessage('Collection replaced successfully.')
-            ->withResource('points', new PointResource(collect($points)));
+            ->withResource('points', new PointResource(Point::where('type', $type)->get()));
     }
 }
