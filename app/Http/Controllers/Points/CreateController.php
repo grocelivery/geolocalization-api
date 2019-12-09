@@ -25,8 +25,8 @@ class CreateController extends Controller
         $point = new Point([
             'name' => $request->input('name'),
             'location' => [
+                (float)$request->input('location.longitude'),
                 (float)$request->input('location.latitude'),
-                (float)$request->input('location.longitude')
             ],
             'payload' => $request->input('payload'),
             'type' => $request->attributes->get('type'),
