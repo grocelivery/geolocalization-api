@@ -38,8 +38,8 @@ class SearchController extends Controller
         $points = Point::where('type', $request->attributes->get('type'));
 
         $points->whereNear(
-            (float)$request->input('latitude'),
             (float)$request->input('longitude'),
+            (float)$request->input('latitude'),
             $request->input('kilometers')
         );
 
