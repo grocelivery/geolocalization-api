@@ -5,7 +5,7 @@ namespace Grocelivery\Geolocalizer\Http\Resources;
 use Grocelivery\Utils\Resources\JsonResource;
 
 /**
- * Class AutocompleteResult
+ * Class SearchResults
  * @package Grocelivery\Geolocalizer\Http\Resources
  */
 class SearchResults extends JsonResource
@@ -16,16 +16,10 @@ class SearchResults extends JsonResource
     public function toArray(): array
     {
         return [
-            'type' => $this->resource['type'],
-            'name' => $this->resource['display_place'],
-            'fullName' => $this->resource['display_name'],
-            'address' => [
-                'display' => $this->resource['display_address'],
-                'elements' => $this->resource['address']
-            ],
+            'name' => $this->resource['display_name'],
             'location' => [
-                'latitude' => $this->resource['lat'],
                 'longitude' => $this->resource['lon'],
+                'latitude' => $this->resource['lat']
             ]
         ];
     }

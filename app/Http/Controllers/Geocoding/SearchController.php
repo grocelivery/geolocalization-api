@@ -4,10 +4,12 @@ namespace Grocelivery\Geolocalizer\Http\Controllers\Geocoding;
 
 use Grocelivery\Geolocalizer\Http\Controllers\Controller;
 use Grocelivery\Geolocalizer\Http\Requests\Geocoding\ReverseSearch;
+use Grocelivery\Geolocalizer\Http\Requests\Geocoding\Autocomplete;
 use Grocelivery\Geolocalizer\Http\Requests\Geocoding\Search;
 use Grocelivery\Geolocalizer\Http\Requests\Geocoding\SearchNearby;
 use Grocelivery\Geolocalizer\Http\Resources\NearbySearchResults;
 use Grocelivery\Geolocalizer\Http\Resources\ReverseSearchResults;
+use Grocelivery\Geolocalizer\Http\Resources\AutocompleteResults;
 use Grocelivery\Geolocalizer\Http\Resources\SearchResults;
 use Grocelivery\Geolocalizer\Services\LocationIqClient;
 use Grocelivery\Utils\Interfaces\JsonResponseInterface;
@@ -39,8 +41,18 @@ class SearchController extends Controller
      */
     public function search(Search $request): JsonResponseInterface
     {
-        $results = $this->client->search($request->input('query'), $request->input('country'));
+        $results = $this->client->search($request->input('query'));
         return $this->response->withResource('results', new SearchResults($results));
+    }
+
+    /**
+     * @param Autocomplete $request
+     * @return JsonResponse
+     */
+    public function autocomplete(Autocomplete $request): JsonResponseInterface
+    {
+        $results = $this->client->autocomplete($request->input('query'), $request->input('country'));
+        return $this->response->withResource('results', new AutocompleteResults($results));
     }
 
     /**

@@ -36,10 +36,24 @@ class LocationIqClient extends RestClient
 
     /**
      * @param string $query
+     * @return Collection
+     */
+    public function search(string $query): Collection
+    {
+        $this->setQueryParameter('q', $query);
+
+
+        $response = $this->get('/search.php' . $this->buildQueryString());
+
+        return collect($response->getBody());
+    }
+
+    /**
+     * @param string $query
      * @param string $country
      * @return Collection
      */
-    public function search(string $query, string $country = null): Collection
+    public function autocomplete(string $query, string $country = null): Collection
     {
         $this->setQueryParameter('q', $query);
 

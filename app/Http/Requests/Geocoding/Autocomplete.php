@@ -5,10 +5,10 @@ namespace Grocelivery\Geolocalizer\Http\Requests\Geocoding;
 use Grocelivery\Utils\Requests\FormRequest;
 
 /**
- * Class Search
+ * Class Autocomplete
  * @package Grocelivery\Geolocalizer\Http\Requests\Geocoding
  */
-class Search extends FormRequest
+class Autocomplete extends FormRequest
 {
     /**
      * @return array
@@ -17,6 +17,7 @@ class Search extends FormRequest
     {
         return [
             'query' => 'required|string',
+            'country' => 'string',
         ];
     }
 }
