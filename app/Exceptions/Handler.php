@@ -7,6 +7,7 @@ use Grocelivery\Utils\Exceptions\ErrorRenderer;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -54,6 +55,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $this->errorRenderer
+            ->additionallyHandle(
+                ModelNotFoundException::class,
+                Response::HTTP_NOT_FOUND,
+                'Not found.'
+            );
+
         return $this->errorRenderer->render($request, $exception);
     }
 }

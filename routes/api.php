@@ -9,6 +9,7 @@ $router->group(['middleware' => 'auth'], function () use ($router): void {
     $router->post('/points/{type}', 'Points\CreateController@createPoint');
     $router->put('/points/{type}', 'Points\CreateController@replacePoints');
     $router->get('/points/{type}', 'Points\SearchController@getAllPoints');
+    $router->get('/points/{type}/{id}', 'Points\SearchController@getPoint');
     $router->get('/points/{type}/search/range', 'Points\SearchController@searchPointsInRange');
     $router->get('/points/{type}/search/name', 'Points\SearchController@searchPointsByName');
 

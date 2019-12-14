@@ -9,6 +9,7 @@ use Grocelivery\Geolocalizer\Http\Resources\PointResource;
 use Grocelivery\Geolocalizer\Models\Point;
 use Grocelivery\Utils\Interfaces\JsonResponseInterface as JsonResponse;
 use Grocelivery\Utils\Requests\FormRequest;
+use Illuminate\Http\Request;
 
 /**
  * Class SearchController
@@ -27,6 +28,13 @@ class SearchController extends Controller
             ->get();
 
         return $this->response->withResource('points', new PointResource($points));
+    }
+
+    public function getPoint(FormRequest $request): JsonResponse
+    {
+        $point = Point::where('_id', $request->attributes->get('id'))->firstOrFail();
+
+        return $this->response->withResource('point', new PointResource($point));
     }
 
     /**
