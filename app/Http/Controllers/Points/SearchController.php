@@ -3,13 +3,13 @@
 namespace Grocelivery\Geolocalizer\Http\Controllers\Points;
 
 use Grocelivery\Geolocalizer\Http\Controllers\Controller;
+use Grocelivery\Geolocalizer\Http\Requests\Points\GetPoints;
 use Grocelivery\Geolocalizer\Http\Requests\Points\SearchPointsByName;
 use Grocelivery\Geolocalizer\Http\Requests\Points\SearchPointsInRange;
 use Grocelivery\Geolocalizer\Http\Resources\PointResource;
 use Grocelivery\Geolocalizer\Models\Point;
 use Grocelivery\Utils\Interfaces\JsonResponseInterface as JsonResponse;
 use Grocelivery\Utils\Requests\FormRequest;
-use Illuminate\Http\Request;
 
 /**
  * Class SearchController
@@ -18,14 +18,22 @@ use Illuminate\Http\Request;
 class SearchController extends Controller
 {
     /**
-     * @param FormRequest $request
+     * @param GetPoints $request
      * @return JsonResponse
      */
-    public function getAllPoints(FormRequest $request): JsonResponse
+    public function getPoints(GetPoints $request): JsonResponse
     {
-        $points = Point::where('type', $request->attributes->get('type'))
-            ->limit((int)$request->query->get('limit'))
-            ->get();
+        $query = Point::where('type', $request->attributes->get('type'));
+
+        if ($request->has('select')) {
+            $query->whereIn('_id', $request->input('select'));
+        }
+
+        if ($request->has('limit')) {
+            $query->limit((int)$request->input('limit'));
+        }
+
+        $points = $query->get();
 
         return $this->response->withResource('points', new PointResource($points));
     }
