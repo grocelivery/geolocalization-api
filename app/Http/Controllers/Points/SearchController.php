@@ -4,6 +4,7 @@ namespace Grocelivery\Geolocalizer\Http\Controllers\Points;
 
 use Grocelivery\Geolocalizer\Http\Controllers\Controller;
 use Grocelivery\Geolocalizer\Http\Requests\Points\GetPoints;
+use Grocelivery\Geolocalizer\Http\Requests\Points\GetPointsInCountry;
 use Grocelivery\Geolocalizer\Http\Requests\Points\SearchPointsByName;
 use Grocelivery\Geolocalizer\Http\Requests\Points\SearchPointsInRange;
 use Grocelivery\Geolocalizer\Http\Resources\PointResource;
@@ -38,11 +39,26 @@ class SearchController extends Controller
         return $this->response->withResource('points', new PointResource($points));
     }
 
+    /**
+     * @param FormRequest $request
+     * @return JsonResponse
+     */
     public function getPoint(FormRequest $request): JsonResponse
     {
         $point = Point::where('_id', $request->attributes->get('id'))->firstOrFail();
 
         return $this->response->withResource('point', new PointResource($point));
+    }
+
+    /**
+     * @param GetPointsInCountry $request
+     * @return JsonResponse
+     */
+    public function getPointInCountry(GetPointsInCountry $request): JsonResponse
+    {
+        $points = Point::where('payload.address.country_code', $request->input('country'))->get();
+
+        return $this->response->withResource('points', new PointResource($points));
     }
 
     /**
