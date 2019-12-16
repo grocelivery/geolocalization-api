@@ -56,7 +56,10 @@ class SearchController extends Controller
      */
     public function getPointsInCountry(GetPointsInCountry $request): JsonResponse
     {
-        $points = Point::where('payload.address.country_code', $request->input('country'))->get();
+        $points = Point::query()
+            ->where('type', $request->attributes->get('type'))
+            ->where('payload.address.country_code', $request->input('country'))
+            ->get();
 
         return $this->response->withResource('points', new PointResource($points));
     }

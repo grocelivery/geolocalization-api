@@ -12,7 +12,7 @@ $router->group(['middleware' => 'auth'], function () use ($router): void {
     $router->get('/points/{type}/{id}', 'Points\SearchController@getPoint');
     $router->get('/points/{type}/search/range', 'Points\SearchController@searchPointsInRange');
     $router->get('/points/{type}/search/name', 'Points\SearchController@searchPointsByName');
-    $router->get('/points/{type}/country', 'Points\SearchController@getPointsInCountry');
+    $router->get('/points/country/{type}', 'Points\SearchController@getPointsInCountry');
 
     $router->get('/geocoding/autocomplete', 'Geocoding\SearchController@autocomplete');
     $router->get('/geocoding/search', 'Geocoding\SearchController@search');
