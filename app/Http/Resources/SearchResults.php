@@ -16,10 +16,10 @@ class SearchResults extends JsonResource
     public function toArray(): array
     {
         return [
-            'name' => $this->resource['display_name'],
+            'name' => $this->resource['place_name'],
             'location' => [
-                'longitude' => $this->resource['lon'],
-                'latitude' => $this->resource['lat']
+                'longitude' => $this->resource['geometry']['coordinates'][0],
+                'latitude' => $this->resource['geometry']['coordinates'][1],
             ]
         ];
     }

@@ -31,7 +31,7 @@ $app->withEloquent();
 
 $app->configure('app');
 $app->configure('database');
-$app->configure('grocelivery');
+$app->configure('mapbox');
 $app->configure('location-iq');
 
 return $app;

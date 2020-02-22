@@ -7,13 +7,11 @@ use Grocelivery\Geolocalizer\Http\Requests\Geocoding\ReverseSearch;
 use Grocelivery\Geolocalizer\Http\Requests\Geocoding\Autocomplete;
 use Grocelivery\Geolocalizer\Http\Requests\Geocoding\Search;
 use Grocelivery\Geolocalizer\Http\Requests\Geocoding\SearchNearby;
-use Grocelivery\Geolocalizer\Http\Resources\NearbySearchResults;
-use Grocelivery\Geolocalizer\Http\Resources\ReverseSearchResults;
-use Grocelivery\Geolocalizer\Http\Resources\AutocompleteResults;
+use Grocelivery\Geolocalizer\Http\Requests\Geocoding\SearchPOIs;
 use Grocelivery\Geolocalizer\Http\Resources\SearchResults;
-use Grocelivery\Geolocalizer\Services\LocationIqClient;
 use Grocelivery\Utils\Interfaces\JsonResponseInterface;
 use Grocelivery\Utils\Responses\JsonResponse;
+use Grocelivery\Geolocalizer\Services\MapboxClient;
 
 /**
  * Class SearchController
@@ -21,15 +19,15 @@ use Grocelivery\Utils\Responses\JsonResponse;
  */
 class SearchController extends Controller
 {
-    /** @var LocationIqClient */
+    /** @var MapboxClient $client */
     protected $client;
 
     /**
      * AutocompleteController constructor.
      * @param JsonResponse $response
-     * @param LocationIqClient $client
+     * @param MapboxClient $client
      */
-    public function __construct(JsonResponse $response, LocationIqClient $client)
+    public function __construct(JsonResponse $response, MapboxClient $client)
     {
         parent::__construct($response);
         $this->client = $client;
@@ -41,8 +39,10 @@ class SearchController extends Controller
      */
     public function search(Search $request): JsonResponseInterface
     {
-        $results = $this->client->search($request->input('query'));
-        return $this->response->withResource('results', new SearchResults($results));
+        $results = $this->client->search($request->input('query'), $request->input('country'));
+
+        return $this->response
+            ->withResource('results', new SearchResults($results));
     }
 
     /**
@@ -52,7 +52,9 @@ class SearchController extends Controller
     public function autocomplete(Autocomplete $request): JsonResponseInterface
     {
         $results = $this->client->autocomplete($request->input('query'), $request->input('country'));
-        return $this->response->withResource('results', new AutocompleteResults($results));
+
+        return $this->response
+            ->withResource('results', new SearchResults($results));
     }
 
     /**
@@ -62,22 +64,20 @@ class SearchController extends Controller
     public function reverse(ReverseSearch $request): JsonResponseInterface
     {
         $results = $this->client->reverse($request->input('latitude'), $request->input('longitude'));
-        return $this->response->withResource('results', new ReverseSearchResults($results));
+
+        return $this->response
+            ->withResource('results', new SearchResults($results));
     }
 
     /**
-     * @param SearchNearby $request
+     * @param SearchPOIs $request
      * @return JsonResponseInterface
      */
-    public function nearby(SearchNearby $request): JsonResponseInterface
+    public function poi(SearchPOIs $request): JsonResponseInterface
     {
-        $results = $this->client->nearby(
-            $request->input('tag'),
-            $request->input('latitude'),
-            $request->input('longitude'),
-            $request->input('kilometers'),
-        );
+        $results = $this->client->poi($request->input('poi'), $request->input('latitude'), $request->input('longitude'));
 
-        return $this->response->withResource('results', new NearbySearchResults($results));
+        return $this->response
+            ->withResource('results', new SearchResults($results));
     }
 }
