@@ -3,15 +3,14 @@
 namespace Grocelivery\Geolocalizer\Http\Controllers\Geocoding;
 
 use Grocelivery\Geolocalizer\Http\Controllers\Controller;
-use Grocelivery\Geolocalizer\Http\Requests\Geocoding\ReverseSearch;
 use Grocelivery\Geolocalizer\Http\Requests\Geocoding\Autocomplete;
+use Grocelivery\Geolocalizer\Http\Requests\Geocoding\ReverseSearch;
 use Grocelivery\Geolocalizer\Http\Requests\Geocoding\Search;
-use Grocelivery\Geolocalizer\Http\Requests\Geocoding\SearchNearby;
 use Grocelivery\Geolocalizer\Http\Requests\Geocoding\SearchPOIs;
 use Grocelivery\Geolocalizer\Http\Resources\SearchResults;
+use Grocelivery\Geolocalizer\Services\MapboxClient;
 use Grocelivery\Utils\Interfaces\JsonResponseInterface;
 use Grocelivery\Utils\Responses\JsonResponse;
-use Grocelivery\Geolocalizer\Services\MapboxClient;
 
 /**
  * Class SearchController
