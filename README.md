@@ -5,7 +5,7 @@ geocoding). Pozwala na wyszukiwanie punktów charakterystycznym, takich jak pobl
 
 ### Instalacja na środowisku deweloperskim
 
-Instalacja zależności comoposer:
+Instalacja zależności composer:
 ```
 composer install
 ```
