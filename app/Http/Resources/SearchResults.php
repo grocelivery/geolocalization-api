@@ -16,7 +16,8 @@ class SearchResults extends JsonResource
     public function toArray(): array
     {
         return [
-            'name' => $this->resource['place_name'],
+            'address' => $this->resource['place_name'],
+            'place' => $this->resource['text'],
             'location' => [
                 'longitude' => $this->resource['geometry']['coordinates'][0],
                 'latitude' => $this->resource['geometry']['coordinates'][1],

@@ -48,6 +48,7 @@ class MapboxClient extends RestClient
      */
     public function reverse(float $latitude, float $longitude): Collection
     {
+        $this->setQueryParameter('types', 'address');
         $response = $this->get("/geocoding/v5/mapbox.places/$latitude,$longitude.json" . $this->getQuery());
 
         return collect($response->get('features'));
