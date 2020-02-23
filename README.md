@@ -20,6 +20,11 @@ Uruchomienie kontenerów docker'owych
 docker-compose up -d
 ```
 
+Inicjacja indeksów mongoDB
+```
+docker container exec geolocalizer-php-fpm php artisan points:init
+```
+
 ### Po skonfigurowaniu aplikacja powinna być dostępna na:
 
 ```
